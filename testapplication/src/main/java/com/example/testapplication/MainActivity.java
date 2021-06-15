@@ -1,9 +1,5 @@
 package com.example.testapplication;
 
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.widget.PopupWindowCompat;
-
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
@@ -16,22 +12,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.view.Window;
-import android.view.WindowManager;
 import android.view.WindowMetrics;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.ScrollView;
 
-public class MainActivity extends AppCompatActivity implements KeyboardHeightProvider.KeyboardHeightObserver, ScrollViewListener {
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity implements KeyboardHeightProvider.KeyboardHeightObserver {
 
     private EditText title;
     private PopupWindow popupWindow;
     private ViewTreeObserver.OnGlobalLayoutListener listener;
     private KeyboardHeightProvider keyboardHeightProvider;
     private int keyboardHeight = 0;
-    private ScrollViewExt scrollView;
+    private ScrollView scrollView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +51,6 @@ public class MainActivity extends AppCompatActivity implements KeyboardHeightPro
         rootView.getViewTreeObserver().addOnGlobalLayoutListener(listener);
 
         scrollView = findViewById(R.id.scroll);
-        scrollView.setScrollViewListener(this);
         title = findViewById(R.id.test);
         title.addTextChangedListener(new TextWatcher() {
             @Override
@@ -155,10 +150,5 @@ public class MainActivity extends AppCompatActivity implements KeyboardHeightPro
     protected void onResume() {
         super.onResume();
         keyboardHeightProvider.setKeyboardHeightObserver(this);
-    }
-
-    @Override
-    public void onScrollChanged(ScrollViewExt scrollView, int x, int y, int oldx, int oldy) {
-        System.out.println("y:" + y + "-" + oldy);
     }
 }
