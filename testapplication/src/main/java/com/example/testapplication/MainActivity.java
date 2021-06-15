@@ -82,7 +82,6 @@ public class MainActivity extends AppCompatActivity implements KeyboardHeightPro
             }
         });
         title.setOnClickListener(v -> {
-            System.out.println("clicked");
             int top = title.getTop();
             int windowHeight;
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.R){
