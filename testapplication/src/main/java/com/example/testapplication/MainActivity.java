@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity implements KeyboardHeightPro
     private KeyboardHeightProvider keyboardHeightProvider;
     private int keyboardHeight = 0;
     private ScrollView scrollView;
+    private int statusBarHeight = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements KeyboardHeightPro
             public void onGlobalLayout() {
                 Rect rect = new Rect();
                 rootView.getWindowVisibleDisplayFrame(rect);
+                statusBarHeight = rect.top;
                 int screenHeight = rootView.getHeight();
                 int heightDifference = screenHeight - (rect.bottom - rect.top);
                 Log.d("Keyboard Size", "Size: " + heightDifference);
@@ -98,8 +100,8 @@ public class MainActivity extends AppCompatActivity implements KeyboardHeightPro
                 System.out.println("actionbar height: " + supportActionBar.getHeight());
                 actionHeight = supportActionBar.getHeight();
             }
-            int space = windowHeight - actionHeight - keyboardHeight - title.getHeight();
-            int scrollTo = top - space + title.getHeight();
+            int space = windowHeight - actionHeight - keyboardHeight - title.getHeight() - statusBarHeight;
+            int scrollTo = top - space ;
             scrollView.smoothScrollTo(0, scrollTo);
         });
         title.post(() -> keyboardHeightProvider.start());

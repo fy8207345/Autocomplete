@@ -20,20 +20,16 @@ public class KeyboardHeightProvider extends PopupWindow {
     /** The keyboard height observer */
     private KeyboardHeightObserver observer;
 
-    /** The cached landscape height of the keyboard */
-    private int keyboardLandscapeHeight;
-
-    /** The cached portrait height of the keyboard */
-    private int keyboardPortraitHeight;
-
     /** The view that is used to calculate the keyboard height */
-    private View popupView;
+    private final View popupView;
 
     /** The parent view */
-    private View parentView;
+    private final View parentView;
 
     /** The root activity that uses this KeyboardHeightProvider */
-    private Activity activity;
+    private final Activity activity;
+
+    private final OnGlobalLayoutListener onGlobalLayoutListener;
 
     /**
      * Construct a new KeyboardHeightProvider
@@ -55,8 +51,7 @@ public class KeyboardHeightProvider extends PopupWindow {
 
         setWidth(0);
         setHeight(LayoutParams.MATCH_PARENT);
-
-        popupView.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+        onGlobalLayoutListener = new OnGlobalLayoutListener() {
 
             @Override
             public void onGlobalLayout() {
@@ -64,7 +59,9 @@ public class KeyboardHeightProvider extends PopupWindow {
                     handleOnGlobalLayout();
                 }
             }
-        });
+        };
+
+        popupView.getViewTreeObserver().addOnGlobalLayoutListener(onGlobalLayoutListener);
     }
 
     /**
@@ -85,6 +82,7 @@ public class KeyboardHeightProvider extends PopupWindow {
      * this provider will not be used anymore.
      */
     public void close() {
+        popupView.getViewTreeObserver().removeOnGlobalLayoutListener(onGlobalLayoutListener);
         this.observer = null;
         dismiss();
     }
@@ -132,12 +130,12 @@ public class KeyboardHeightProvider extends PopupWindow {
             notifyKeyboardHeightChanged(0, orientation);
         }
         else if (orientation == Configuration.ORIENTATION_PORTRAIT) {
-            this.keyboardPortraitHeight = keyboardHeight;
-            notifyKeyboardHeightChanged(keyboardPortraitHeight, orientation);
+            // The cached portrait height of the keyboard
+            notifyKeyboardHeightChanged(keyboardHeight, orientation);
         }
         else {
-            this.keyboardLandscapeHeight = keyboardHeight;
-            notifyKeyboardHeightChanged(keyboardLandscapeHeight, orientation);
+            // The cached landscape height of the keyboard
+            notifyKeyboardHeightChanged(keyboardHeight, orientation);
         }
     }
 
