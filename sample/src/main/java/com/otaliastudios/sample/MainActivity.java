@@ -133,10 +133,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.single_button:
-                userAutocomplete.showPopup(" ");
+                userAutocomplete.showPopup("");
                 break;
             case R.id.topbar_button:
-                maleFemaleAutocomplete.showPopup(" ");
+                maleFemaleAutocomplete.showPopup("");
                 break;
             case R.id.multi_button:
                 ((EditText) findViewById(R.id.multi)).setText("");

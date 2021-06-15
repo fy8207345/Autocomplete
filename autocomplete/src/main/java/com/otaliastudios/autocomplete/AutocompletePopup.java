@@ -37,7 +37,7 @@ class AutocompletePopup {
     private int mHorizontalOffset = 0;
     private int mVerticalOffset = 0;
     private boolean mVerticalOffsetSet;
-    private int mGravity = Gravity.NO_GRAVITY;
+    private int mGravity = Gravity.TOP;
     private boolean mAlwaysVisible = false;
     private boolean mOutsideTouchable = true;
     private View mAnchorView;
@@ -358,7 +358,7 @@ class AutocompletePopup {
             if (heightSpec == 0) {
                 dismiss();
             } else {
-                mPopup.update(getAnchorView(), mHorizontalOffset, mVerticalOffset, widthSpec, heightSpec);
+//                mPopup.update(getAnchorView(), mHorizontalOffset, mVerticalOffset, widthSpec, heightSpec);
             }
 
         } else {
@@ -385,7 +385,7 @@ class AutocompletePopup {
             // Set width and height.
             mPopup.setWidth(widthSpec);
             mPopup.setHeight(heightSpec);
-            mPopup.setClippingEnabled(true);
+            mPopup.setClippingEnabled(false);
 
             // use outside touchable to dismiss drop down when touching outside of it, so
             // only set this if the dropdown is not always visible
